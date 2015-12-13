@@ -286,21 +286,6 @@ class dadata
 	}
 
 	/**
-	 * @param $field
-	 * @param string $type
-	 *
-	 * https://dadata.ru/api/clean/
-	 *
-	 * @return array
-	 */
-	public function cleanField($field, $type = '')
-	{
-		$opts = array($field);
-		$data = $this->query('clean/'. $type, $opts);
-		return isset($data[0]) ? $data[0] : array();
-	}
-
-	/**
 	 * @param $address
 	 *
 	 * https://dadata.ru/api/clean/
@@ -382,6 +367,39 @@ class dadata
 	public function cleanVehicle($vehicle)
 	{
 		return $this->cleanField($vehicle, 'vehicle');
+	}
+
+	/**
+	 * @param $field
+	 * @param string $type
+	 *
+	 * https://dadata.ru/api/clean/
+	 *
+	 * @return array
+	 */
+	public function cleanField($field, $type = '')
+	{
+		$opts = array($field);
+		$data = $this->query('clean/'. $type, $opts);
+		return isset($data[0]) ? $data[0] : array();
+	}
+
+	/**
+	 * @param array $structure
+	 * @param array $data
+	 *
+	 * https://dadata.ru/api/clean/#response-record
+	 *
+	 * @return array
+	 */
+	public function cleanStructure(array $structure = array(), array $data = array())
+	{
+		$opts = array(
+			'structure' => $structure,
+			'data' => $data
+		);
+		$data = $this->query('clean', $opts);
+		return isset($data['structure']) ? $data : array();
 	}
 
 	/**
