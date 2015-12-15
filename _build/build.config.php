@@ -10,7 +10,7 @@
 //define('PKG_NAMESPACE_PATH', '{core_path}components/' . PKG_NAME_LOWER . '/');
 
 
-define('PKG_NAME', 'modx-DaData');
+define('PKG_NAME', 'DaData');
 define('PKG_NAME_LOWER', 'dadata');
 
 define('PKG_VERSION', '1.0.0');
