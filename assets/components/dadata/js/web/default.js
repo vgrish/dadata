@@ -86,11 +86,6 @@ modxDaData = {
                     var ovalue = $input.val();
                     var nvalue = data[key.toLowerCase()];
                     modxDaData.suggestions.setvalue($input, nvalue);
-
-                    /** gender **/
-                    if (!!data.gender) {
-                        $input.suggestions('setOptions', {params: {gender: data.gender}});
-                    }
                 });
             }
 
