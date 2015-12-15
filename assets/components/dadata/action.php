@@ -40,10 +40,6 @@ if ($jsonError != JSON_ERROR_NONE) {
 if (!empty($_SERVER['HTTP_AUTHORIZATION'])) {
 	$properties['propkey'] = trim(str_replace('Token', '', $_SERVER['HTTP_AUTHORIZATION']));
 }
-
-//$modx->log(1, print_r($properties, 1));
-
-
 define('MODX_ACTION_MODE', true);
 /* @var dadata $dadata */
 $corePath = $modx->getOption('dadata_core_path', null, $modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/dadata/');

@@ -183,10 +183,6 @@ class dadata
 				}
 			}
 
-//			$config = $this->modx->toJSON(array(
-//				new stdClass()
-//			));
-
 			$this->modx->regClientStartupScript(preg_replace('#(\n|\t)#', '', '
 				<script type="text/javascript">
 					' . $configName . '={};

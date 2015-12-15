@@ -1,8 +1,13 @@
 <?php
 
-$_lang['dadata_prop_limit'] = 'The number of Items to limit per page.';
-$_lang['dadata_prop_outputSeparator'] = 'A string to separate each row with.';
-$_lang['dadata_prop_sortBy'] = 'The field to sort by.';
-$_lang['dadata_prop_sortDir'] = 'The direction to sort by.';
-$_lang['dadata_prop_tpl'] = 'The chunk to use for each row of Items.';
-$_lang['dadata_prop_toPlaceholder'] = 'If set, will output the content to the placeholder specified in this property, rather than outputting the content directly.';
+$_lang['dadata_prop_apiMode'] = 'Режим работы.';
+$_lang['dadata_prop_apiToken'] = 'API ключ.';
+$_lang['dadata_prop_apiSecret'] = 'Секретный ключ для стандартизации.';
+$_lang['dadata_prop_suggestions'] = 'Строка параметров подсказок, закодированная в JSON.';
+$_lang['dadata_prop_actionUrl'] = 'Коннектор для обработки ajax запросов.';
+$_lang['dadata_prop_selector'] = 'Имя CSS класса, который будеи использован как jQuery селектор при выборе контейнера для поиска input.';
+$_lang['dadata_prop_objectName'] = 'Имя объекта для инициализации в подключаемом javascript. По умолчанию "dadata".';
+$_lang['dadata_prop_frontendCss'] = 'Файл с css стилями для подключения на фронтенде.';
+$_lang['dadata_prop_frontendJs'] = 'Файл с javascript для подключения на фронтенде.';
+$_lang['dadata_prop_jqueryJs'] = 'Файл с jquery.js для подключения на фронтенде.';
+

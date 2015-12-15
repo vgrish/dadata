@@ -1,8 +1,13 @@
 <?php
 
-$_lang['dadata_prop_limit'] = 'Ограничение вывода Предметов на странице.';
-$_lang['dadata_prop_outputSeparator'] = 'Разделитель вывода строк.';
-$_lang['dadata_prop_sortBy'] = 'Поле сортировки.';
-$_lang['dadata_prop_sortDir'] = 'Направление сортировки.';
-$_lang['dadata_prop_tpl'] = 'Чанк оформления каждого ряда Предметов.';
-$_lang['dadata_prop_toPlaceholder'] = 'Усли указан этот параметр, то результат будет сохранен в плейсхолдер, вместо прямого вывода на странице.';
+$_lang['dadata_prop_apiMode'] = 'Режим работы.';
+$_lang['dadata_prop_apiToken'] = 'API ключ.';
+$_lang['dadata_prop_apiSecret'] = 'Секретный ключ для стандартизации.';
+$_lang['dadata_prop_suggestions'] = 'Строка параметров подсказок, закодированная в JSON.';
+$_lang['dadata_prop_actionUrl'] = 'Коннектор для обработки ajax запросов.';
+$_lang['dadata_prop_selector'] = 'Имя CSS класса, который будеи использован как jQuery селектор при выборе контейнера для поиска input.';
+$_lang['dadata_prop_objectName'] = 'Имя объекта для инициализации в подключаемом javascript. По умолчанию "dadata".';
+$_lang['dadata_prop_frontendCss'] = 'Файл с css стилями для подключения на фронтенде.';
+$_lang['dadata_prop_frontendJs'] = 'Файл с javascript для подключения на фронтенде.';
+$_lang['dadata_prop_jqueryJs'] = 'Файл с jquery.js для подключения на фронтенде.';
+

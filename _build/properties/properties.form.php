@@ -37,10 +37,10 @@ $tmp = array(
 	),
 
 
-//	'objectName' => array(
-//		'type' => 'textfield',
-//		'value' => 'modxDaData',
-//	),
+	'objectName' => array(
+		'type' => 'textfield',
+		'value' => 'modxDaData',
+	),
 	'jqueryJs' => array(
 		'type' => 'textfield',
 		'value' => '[[+assetsUrl]]vendor/jquery/jquery.min.js',
