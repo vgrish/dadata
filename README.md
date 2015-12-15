@@ -18,9 +18,9 @@ DaData.ru <b>исправляет проблемные адреса</b>, ФИО 
 
 ```
 [[!dadata.form?
-        &apiToken=`15d97560c1ecb12b6728548def159eaf75adfac`
-	&apiSecret=`15011a4b5c8448270ace9a999edca6241299ed1`
-	&suggestions=`{
+    &apiToken=`15d97560c1ecb12b6728548def159eaf75adfac`
+    &apiSecret=`15011a4b5c8448270ace9a999edca6241299ed1`
+    &suggestions=`{
         'fullname': {
             'type': 'NAME',
             'params': {
@@ -69,10 +69,10 @@ DaData.ru <b>исправляет проблемные адреса</b>, ФИО 
 
 ```
 [[!dadata.form?
-        &apiToken=`ed5d97560c1ecb12b6728548def159eaf75adfac`
-	&apiSecret=`a65011a4b5c8448270ace9a999edca6241299ed1`
-        &selector=`#dadata-form2`
-	&suggestions=`{
+    &apiToken=`ed5d97560c1ecb12b6728548def159eaf75adfac`
+    &apiSecret=`a65011a4b5c8448270ace9a999edca6241299ed1`
+    &selector=`#dadata-form2`
+    &suggestions=`{
         'email': {
             'type': 'EMAIL',
             'params': {}
@@ -94,16 +94,16 @@ DaData.ru <b>исправляет проблемные адреса</b>, ФИО 
 
 ```
 [[!dadata.form?
-        &apiToken=`ed5d97560c1ecb12b6728548def159eaf75adfac`
-	&apiSecret=`a65011a4b5c8448270ace9a999edca6241299ed1`
-        &selector=`.ajax_form.af_example`
-	&suggestions=`{
+    &apiToken=`ed5d97560c1ecb12b6728548def159eaf75adfac`
+    &apiSecret=`a65011a4b5c8448270ace9a999edca6241299ed1`
+    &selector=`.ajax_form.af_example`
+    &suggestions=`{
         'name': {
             'type': 'NAME'
         },
         'email': {
             'type': 'EMAIL'
         }
-	}`
+    }`
 ]]
 ```
