@@ -1,57 +1,109 @@
 ## dadata
 
-dadata is a base Extra template that is useful when wanting to create a new
-Extra for MODx Revolution. One can git archive from this repository to start
-with all the file structure for beginning MODx Extra development pre-setup.
 
-## How to Export
+[modx-DaData] - интеграция с сервисом <a href="https://dadata.ru/">DaData</a>.
+DaData.ru <b>исправляет проблемные адреса</b>, ФИО и телефоны автоматически, по 5–10 копеек за запись.
+А бесплатные Подсказки помогают клиентам за пару секунд <b>вводить правильные адреса, ФИО, email</b>, <b>реквизиты компаний</b> и банков.
+в пакете реализованы методы:
+- подсказок
+- стандартизации
+- геолокации
+- актуальности справочников
+- баланса
+- поиск адреса по коду КЛАДР или ФИАС
 
-First, clone this repository somewhere on your development machine:
+пример работы посмотреть тут http://location.vgrish.ru/index.php?id=10
 
-`git clone http://github.com/splittingred/dadata.git ./`
+пример подключения подсказок для ввода ФИО (<a href="http://location.vgrish.ru/index.php?id=10">Форма 1</a>) 
 
-Then, create the target directory where you want to create the file.
+```
+[[!dadata.form?
+        &apiToken=`15d97560c1ecb12b6728548def159eaf75adfac`
+	&apiSecret=`15011a4b5c8448270ace9a999edca6241299ed1`
+	&suggestions=`{
+        'fullname': {
+            'type': 'NAME',
+            'params': {
+                
+            },
+            'autoSelectFirst':1,
+            'count':6,
+            'subject': {
+                'surname-name': 'SURNAME',
+                'fullname-name': 'NAME',
+                'fullname-patronymic': 'PATRONYMIC'
+            }
+        },
+        'surname-name': {
+            'type': 'NAME',
+            'params': {
+                'parts': ['SURNAME']
+            },
+            'master': {
+                'fullname': 'SURNAME'
+            }
+        },
+        'fullname-name': {
+            'type': 'NAME',
+            'params': {
+                'parts': ['NAME']
+            },
+            'master': {
+                'fullname': 'NAME'
+            }
+        },
+        'fullname-patronymic': {
+            'type': 'NAME',
+            'params': {
+                'parts': ['PATRONYMIC']
+            },
+            'master': {
+                'fullname': 'PATRONYMIC'
+            }
+        }
+	}`
+]]
+```
 
-Then, navigate to the directory dadata is now in, and do this:
+пример подключения подсказок (<a href="http://location.vgrish.ru/index.php?id=10">Форма 2</a>)
 
-`git archive HEAD | (cd /path/where/I/want/my/new/repo/ && tar -xvf -)`
+```
+[[!dadata.form?
+        &apiToken=`ed5d97560c1ecb12b6728548def159eaf75adfac`
+	&apiSecret=`a65011a4b5c8448270ace9a999edca6241299ed1`
+        &selector=`#dadata-form2`
+	&suggestions=`{
+        'email': {
+            'type': 'EMAIL',
+            'params': {}
+        },
+        'address': {
+            'type': 'ADDRESS'
+        },
+        'party': {
+            'type': 'PARTY'
+        },
+        'bank': {
+            'type': 'BANK'
+        }
+	}`
+]]
+```
 
-(Windows users can just do git archive HEAD and extract the tar file to wherever
-they want.)
+пример подключения подсказок (<a href="http://location.vgrish.ru/index.php?id=10">AjaxForm</a>)
 
-Then you can git init or whatever in that directory, and your files will be located
-there!
-
-## Configuration
-
-Now, you'll want to change references to dadata in the files in your
-new copied-from-dadata repo to whatever name of your new Extra will be. Once
-you've done that, you can create some System Settings:
-
-- 'mynamespace.core_path' - Point to /path/to/my/extra/core/components/extra/
-- 'mynamespace.assets_url' - /path/to/my/extra/assets/components/extra/
-
-Then clear the cache. This will tell the Extra to look for the files located
-in these directories, allowing you to develop outside of the MODx webroot!
-
-## Information
-
-Note that if you git archive from this repository, you may not need all of its
-functionality. This Extra contains files and the setup to do the following:
-
-- Integrates a custom table of "Items"
-- A snippet listing Items sorted by name and templated with a chunk
-- A custom manager page to manage Items on
-
-If you do not require all of this functionality, simply remove it and change the
-appropriate code.
-
-Also, you'll want to change all the references of 'dadata' to whatever the
-name of your component is.
-
-## Copyright Information
-
-dadata is distributed as GPL (as MODx Revolution is), but the copyright owner
-(Shaun McCormick) grants all users of dadata the ability to modify, distribute
-and use dadata in MODx development as they see fit, as long as attribution
-is given somewhere in the distributed source of all derivative works.
+```
+[[!dadata.form?
+        &apiToken=`ed5d97560c1ecb12b6728548def159eaf75adfac`
+	&apiSecret=`a65011a4b5c8448270ace9a999edca6241299ed1`
+        &selector=`.ajax_form.af_example`
+	&suggestions=`{
+        'name': {
+            'type': 'NAME'
+        },
+        'email': {
+            'type': 'EMAIL'
+        }
+	}`
+]]
+```
