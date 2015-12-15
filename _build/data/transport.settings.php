@@ -5,21 +5,21 @@ $settings = array();
 $tmp = array(
 	//временные
 
-	'assets_path' => array(
-		'value' => '{base_path}dadata/assets/components/dadata/',
-		'xtype' => 'textfield',
-		'area' => 'dadata_temp',
-	),
-	'assets_url' => array(
-		'value' => '/dadata/assets/components/dadata/',
-		'xtype' => 'textfield',
-		'area' => 'dadata_temp',
-	),
-	'core_path' => array(
-		'value' => '{base_path}dadata/core/components/dadata/',
-		'xtype' => 'textfield',
-		'area' => 'dadata_temp',
-	),
+//	'assets_path' => array(
+//		'value' => '{base_path}dadata/assets/components/dadata/',
+//		'xtype' => 'textfield',
+//		'area' => 'dadata_temp',
+//	),
+//	'assets_url' => array(
+//		'value' => '/dadata/assets/components/dadata/',
+//		'xtype' => 'textfield',
+//		'area' => 'dadata_temp',
+//	),
+//	'core_path' => array(
+//		'value' => '{base_path}dadata/core/components/dadata/',
+//		'xtype' => 'textfield',
+//		'area' => 'dadata_temp',
+//	),
 
 	//временные
 

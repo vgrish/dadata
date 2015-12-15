@@ -3,8 +3,8 @@
 $snippets = array();
 
 $tmp = array(
-	'dadata' => array(
-		'file' => 'dadata',
+	'dadata.form' => array(
+		'file' => 'form',
 		'description' => '',
 	),
 );

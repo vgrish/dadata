@@ -4,6 +4,7 @@ if (empty($_REQUEST['action'])) {
 	@session_write_close();
 	die('Access denied');
 }
+$_REQUEST['action'] = strtolower(ltrim($_REQUEST['action'], '/'));
 define('MODX_API_MODE', true);
 $productionIndex = dirname(dirname(dirname(dirname(__FILE__)))) . '/index.php';
 $developmentIndex = dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/index.php';
@@ -24,6 +25,25 @@ if ($ctx != 'web') {
 	$modx->user = null;
 	$modx->getUser($ctx);
 }
+
+/** @var  $properties */
+$properties = $_REQUEST;
+/** @var  $requestPayload */
+$requestPayload = json_decode(file_get_contents('php://input'), true);
+$jsonError = json_last_error();
+if ($jsonError != JSON_ERROR_NONE) {
+	$modx->log(modX::LOG_LEVEL_ERROR, "[dadata] JSON Error: " . $jsonError);
+} elseif (!empty($requestPayload)) {
+	$properties = array_merge($properties, $requestPayload);
+}
+/** @var  $propKey */
+if (!empty($_SERVER['HTTP_AUTHORIZATION'])) {
+	$properties['propkey'] = trim(str_replace('Token', '', $_SERVER['HTTP_AUTHORIZATION']));
+}
+
+//$modx->log(1, print_r($properties, 1));
+
+
 define('MODX_ACTION_MODE', true);
 /* @var dadata $dadata */
 $corePath = $modx->getOption('dadata_core_path', null, $modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/dadata/');
@@ -33,8 +53,8 @@ if ($modx->error->hasError() OR !($dadata instanceof dadata)) {
 	die('Error');
 }
 $dadata->initialize($ctx);
-$dadata->config['processorsPath'] = $dadata->config['processorsPath'] .'web/';
-if (!$response = $dadata->runProcessor($_REQUEST['action'], $_REQUEST)) {
+$dadata->config['processorsPath'] = $dadata->config['processorsPath'] . 'web/';
+if (!$response = $dadata->runProcessor($_REQUEST['action'], $properties)) {
 	$response = $modx->toJSON(array(
 		'success' => false,
 		'code' => 401,
