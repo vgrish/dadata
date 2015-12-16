@@ -293,7 +293,7 @@ class dadata
 				$keys = array('count', 'parts', 'gender');
 				break;
 			case 'address':
-				$keys = array('count', 'locations');
+				$keys = array('count', 'locations', 'from_bound', 'to_bound', 'locations_boost');
 				break;
 			case 'party':
 				$keys = array('count', 'status', 'type', 'locations');
@@ -344,6 +344,7 @@ class dadata
 		} else {
 			$data = $this->query('suggest/' . $type, $opts);
 		}
+		$this->showLog($data);
 		return isset($data['suggestions']) ? $data : array();
 	}
 
