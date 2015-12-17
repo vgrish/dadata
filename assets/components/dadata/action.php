@@ -37,9 +37,16 @@ if ($jsonError != JSON_ERROR_NONE) {
 	$properties = array_merge($properties, $requestPayload);
 }
 /** @var  $propKey */
-if (!empty($_SERVER['HTTP_AUTHORIZATION'])) {
-	$properties['propkey'] = trim(str_replace('Token', '', $_SERVER['HTTP_AUTHORIZATION']));
+
+switch (true) {
+	case !empty($_SERVER['HTTP_AUTHORIZATION']):
+		$properties['propkey'] = trim(str_replace('Token', '', $_SERVER['HTTP_AUTHORIZATION']));
+		break;
+	case !empty($_SERVER['HTTP_CGI_AUTHORIZATION']):
+		$properties['propkey'] = trim(str_replace('Token', '', $_SERVER['HTTP_CGI_AUTHORIZATION']));
+		break;
 }
+
 define('MODX_ACTION_MODE', true);
 /* @var dadata $dadata */
 $corePath = $modx->getOption('dadata_core_path', null, $modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/dadata/');

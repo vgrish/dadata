@@ -144,19 +144,19 @@ class dadata
 	{
 		$this->config = array_merge($this->config, $config);
 
-		$this->mode = trim($this->getOption('apiMode', $this->config, 0, true));
-		$this->token = trim($this->getOption('apiToken', $this->config, 0, true));
-		$this->secret = trim($this->getOption('apiSecret', $this->config, 0, true));
-		$this->url = trim($this->getOption('apiUrl', $this->config, 0, true));
+		$this->mode = trim($this->getOption('apiMode', $this->config, $this->modx->getOption('dadata_apiMode', null, 0, true), true));
+		$this->token = trim($this->getOption('apiToken', $this->config, $this->modx->getOption('dadata_apiToken', null, 0, true), true));
+		$this->secret = trim($this->getOption('apiSecret', $this->config, $this->modx->getOption('dadata_apiSecret', null, 0, true), true));
+		$this->url = trim($this->getOption('apiUrl', $this->config, $this->modx->getOption('dadata_apiUrl', null, 0, true), true));
 
 		switch (true) {
 			case $this->url:
 				break;
 			case !$this->url AND !$this->mode:
-				$this->url = trim($this->getOption('apiUrlFree', $this->config, 'https://dadata.ru/api/v2', true));
+				$this->url = trim($this->getOption('apiUrlFree', $this->config, $this->modx->getOption('dadata_apiUrlFree', null, 'https://dadata.ru/api/v2', true), true));
 				break;
 			case !$this->url AND $this->mode:
-				$this->url = trim($this->getOption('apiUrlPay', $this->config, 'https://suggestions.dadata.ru/suggestions/api/4_1/rs', true));
+				$this->url = trim($this->getOption('apiUrlPay', $this->config, $this->modx->getOption('dadata_apiUrlPay', null, 'https://suggestions.dadata.ru/suggestions/api/4_1/rs', true), true));
 				break;
 		}
 	}

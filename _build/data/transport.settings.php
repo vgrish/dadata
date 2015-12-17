@@ -3,6 +3,19 @@
 $settings = array();
 
 $tmp = array(
+
+
+	'apiToken' => array(
+		'value' => '',
+		'xtype' => 'textfield',
+		'area' => 'dadata_main',
+	),
+	'apiSecret' => array(
+		'value' => '',
+		'xtype' => 'textfield',
+		'area' => 'dadata_main',
+	),
+
 	//временные
 
 //	'assets_path' => array(
