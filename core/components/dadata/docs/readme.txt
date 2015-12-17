@@ -1,5 +1,5 @@
 --------------------
-modx-DaData
+DaData
 --------------------
 Author: Vgrish <vgrish@gmail.com>
 --------------------
