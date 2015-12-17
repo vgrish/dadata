@@ -23,6 +23,9 @@ class dadata
 	/** @var $url */
 	protected $url;
 
+	/** @var Format $Format */
+	public $Format;
+
 	/**
 	 * @param modX $modx
 	 * @param array $config
@@ -51,6 +54,7 @@ class dadata
 			'chunkSuffix' => '.chunk.tpl',
 			'snippetsPath' => $corePath . 'elements/snippets/',
 			'processorsPath' => $corePath . 'processors/',
+			'handlersPath' => $corePath . 'handlers/',
 
 			'prepareResponse' => true,
 			'jsonResponse' => true,
@@ -118,6 +122,10 @@ class dadata
 			return true;
 		}
 
+		if (!$this->Format) {
+			$this->loadFormat();
+		}
+
 		switch ($ctx) {
 			case 'mgr':
 				break;
@@ -151,6 +159,25 @@ class dadata
 				$this->url = trim($this->getOption('apiUrlPay', $this->config, 'https://suggestions.dadata.ru/suggestions/api/4_1/rs', true));
 				break;
 		}
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function loadFormat()
+	{
+		if (!is_object($this->Format) OR !($this->Format instanceof FormatInterface)) {
+			$formatClass = $this->modx->loadClass('format.Format', $this->config['handlersPath'], true, true);
+			if ($derivedClass = $this->modx->getOption('dadata_format_handler_class', null, '', true)) {
+				if ($derivedClass = $this->modx->loadClass('format.' . $derivedClass, $this->config['handlersPath'], true, true)) {
+					$formatClass = $derivedClass;
+				}
+			}
+			if ($formatClass) {
+				$this->Format = new $formatClass($this->modx, $this->config);
+			}
+		}
+		return !empty($this->Format) AND $this->Format instanceof FormatInterface;
 	}
 
 	/**
@@ -281,6 +308,15 @@ class dadata
 	}
 
 	/**
+	 * @param array $request
+	 * @return array
+	 */
+	public function getRequest($type = '', array $request = array())
+	{
+		return $request;
+	}
+
+	/**
 	 * @param string $type
 	 * @param array $opts
 	 * @return array
@@ -290,19 +326,19 @@ class dadata
 		$data = array();
 		switch ($type) {
 			case 'fio':
-				$keys = array('count', 'parts', 'gender');
+				$keys = array('query', 'count', 'parts', 'gender');
 				break;
 			case 'address':
-				$keys = array('count', 'locations', 'from_bound', 'to_bound', 'locations_boost');
+				$keys = array('query', 'count', 'locations', 'from_bound', 'to_bound', 'restrict_value', 'locations_boost');
 				break;
 			case 'party':
-				$keys = array('count', 'status', 'type', 'locations');
+				$keys = array('query', 'count', 'status', 'type', 'locations', 'locations_boost');
 				break;
 			case 'email':
-				$keys = array('count');
+				$keys = array('query', 'count');
 				break;
 			case 'bank':
-				$keys = array('count', 'status', 'type');
+				$keys = array('query', 'count', 'status', 'type');
 				break;
 
 			default:
@@ -318,6 +354,7 @@ class dadata
 		return $data;
 	}
 
+
 	/**
 	 * @param $query
 	 * @param string $type
@@ -332,6 +369,9 @@ class dadata
 		$cacheResponse = $this->getOption('cacheResponse', $this->config, 0, true);
 		$minChars = $this->getOption('minChars', $this->config, 3, true);
 
+		$request = $this->getRequest($type, $opts);
+		$opts = $this->getOpts($type, $opts);
+
 		if ($cacheResponse AND mb_strlen($query) > $minChars) {
 			$options = array(
 				'cache_key' => 'dadata/query/' . $type . '/' . sha1(serialize($opts)),
@@ -341,11 +381,31 @@ class dadata
 				$data = $this->query('suggest/' . $type, $opts);
 				$this->setCache($data, $options);
 			}
+			if ($this->getOption('isprocess_data', null, true, true)) {
+				$data = $this->processSuggestData($data, $request);
+			}
 		} else {
 			$data = $this->query('suggest/' . $type, $opts);
+			if ($this->getOption('isprocess_data', null, true, true)) {
+				$data = $this->processSuggestData($data, $request);
+			}
 		}
+
 		$this->showLog($data);
 		return isset($data['suggestions']) ? $data : array();
+	}
+
+	/**
+	 * @param array $data
+	 *
+	 * @return array
+	 */
+	public function processSuggestData(array $data = array(), array $request = array())
+	{
+		if (!$this->Format) {
+			$this->loadFormat();
+		}
+		return $this->Format->processSuggestData($data, $request);
 	}
 
 	/**
@@ -362,9 +422,7 @@ class dadata
 	 */
 	public function suggestName($name, array $opts = array())
 	{
-		$type = 'fio';
-		$data = $this->getOpts($type, $opts);
-		return $this->suggestField($name, $type, $data);
+		return $this->suggestField($name, 'fio', $opts);
 	}
 
 	/**
@@ -382,9 +440,7 @@ class dadata
 	 */
 	public function suggestAddress($address, array $opts = array())
 	{
-		$type = 'address';
-		$data = $this->getOpts($type, $opts);
-		return $this->suggestField($address, $type, $data);
+		return $this->suggestField($address, 'address', $opts);
 	}
 
 	/**
@@ -402,9 +458,7 @@ class dadata
 	 */
 	public function suggestParty($party, array $opts = array())
 	{
-		$type = 'party';
-		$data = $this->getOpts($type, $opts);
-		return $this->suggestField($party, $type, $data);
+		return $this->suggestField($party, 'party', $opts);
 	}
 
 	/**
@@ -419,9 +473,7 @@ class dadata
 	 */
 	public function suggestEmail($email, array $opts = array())
 	{
-		$type = 'email';
-		$data = $this->getOpts($type, $opts);
-		return $this->suggestField($email, $type, $data);
+		return $this->suggestField($email, 'email', $opts);
 	}
 
 	/**
@@ -438,9 +490,7 @@ class dadata
 	 */
 	public function suggestBank($bank, array $opts = array())
 	{
-		$type = 'bank';
-		$data = $this->getOpts($type, $opts);
-		return $this->suggestField($bank, $type, $data);
+		return $this->suggestField($bank, 'bank', $opts);
 	}
 
 	/**

@@ -1,4 +1,4 @@
-/** v 1.0.0 */
+/** v 1.0.1 */
 
 if (typeof(modxDaData) == 'undefined') {
     modxDaData = {
@@ -89,7 +89,12 @@ modxDaData = {
                 });
             }
 
-            modxDaData.suggestions.setvalue(input, suggestion.value);
+            if (!!suggestion.return) {
+                modxDaData.suggestions.setvalue(input, suggestion.return);
+            }
+            else {
+                modxDaData.suggestions.setvalue(input, suggestion.value);
+            }
 
             return true;
         });

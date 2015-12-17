@@ -1,5 +1,9 @@
 Changelog for modx-DaData.
 
+1.0.1-beta (17.12.2015)
+==============
+- Add format handler
+
 1.0.0-beta
 ==============
 - Initial
