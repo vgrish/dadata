@@ -1,4 +1,4 @@
-Changelog for modx-DaData.
+Changelog for DaData.
 
 1.0.1-beta (17.12.2015)
 ==============
