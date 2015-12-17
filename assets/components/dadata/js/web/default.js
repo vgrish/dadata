@@ -1,4 +1,4 @@
-/** v 1.0.1 */
+/** v 1.0.2 */
 
 if (typeof(modxDaData) == 'undefined') {
     modxDaData = {
@@ -59,6 +59,10 @@ modxDaData = {
                     var ovalue = input.attr('data-oldvalue');
                     var nvalue = data[key.toLowerCase()];
 
+                    if (nvalue == null) {
+                        nvalue = '';
+                    }
+
                     switch (true) {
                         case movalue == '':
                             mnvalue = nvalue;
@@ -89,7 +93,7 @@ modxDaData = {
                 });
             }
 
-            if (!!suggestion.return) {
+            if (suggestion.return !== null && suggestion.return !== undefined) {
                 modxDaData.suggestions.setvalue(input, suggestion.return);
             }
             else {
@@ -158,8 +162,9 @@ modxDaData.suggestions = {
     },
 
     setvalue: function (input, value) {
-        input.val(value).data('oldvalue', '').attr('data-oldvalue', value).trigger('change');
-        return true;
+        if (value !== null && value !== undefined) {
+            input.val(value).data('oldvalue', '').attr('data-oldvalue', value).trigger('change');
+        }
     }
 
 };
