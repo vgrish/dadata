@@ -18,8 +18,6 @@ DaData.ru <b>исправляет проблемные адреса</b>, ФИО 
 
 ```
 [[!dadata.form?
-    &apiToken=`15d97560c1ecb12b6728548def159eaf75adfac`
-    &apiSecret=`15011a4b5c8448270ace9a999edca6241299ed1`
     &suggestions=`{
         'fullname': {
             'type': 'NAME',
@@ -69,19 +67,26 @@ DaData.ru <b>исправляет проблемные адреса</b>, ФИО 
 
 ```
 [[!dadata.form?
-    &apiToken=`ed5d97560c1ecb12b6728548def159eaf75adfac`
-    &apiSecret=`a65011a4b5c8448270ace9a999edca6241299ed1`
     &selector=`#dadata-form2`
-    &suggestions=`{
+	&suggestions=`{
         'email': {
-            'type': 'EMAIL',
-            'params': {}
+            'type': 'EMAIL'
         },
         'address': {
             'type': 'ADDRESS'
         },
         'party': {
-            'type': 'PARTY'
+            'type': 'PARTY',
+            'restrict_value': 'true'
+        },
+        'inn': {
+            'type': 'PARTY',
+            'restrict_value': 'true',
+            'params': {
+                'return': {
+                    'keys': ['data.inn']
+                }
+            }
         },
         'bank': {
             'type': 'BANK'
@@ -94,8 +99,6 @@ DaData.ru <b>исправляет проблемные адреса</b>, ФИО 
 
 ```
 [[!dadata.form?
-    &apiToken=`ed5d97560c1ecb12b6728548def159eaf75adfac`
-    &apiSecret=`a65011a4b5c8448270ace9a999edca6241299ed1`
     &selector=`.ajax_form.af_example`
     &suggestions=`{
         'name': {
@@ -105,5 +108,99 @@ DaData.ru <b>исправляет проблемные адреса</b>, ФИО 
             'type': 'EMAIL'
         }
     }`
+]]
+```
+
+пример для адреса (<a href="http://location.vgrish.ru/index.php?id=10">Форма 4</a>)
+```
+[[!dadata.form?
+    &selector=`#dadata-form4`
+	&suggestions=`{
+        'address-input': {
+            'type': 'ADDRESS',
+            'params': {
+                
+            },
+            'subject': {
+                'address-postalcode': 'postal_code',
+                'address-region': 'region',
+                'address-city': 'city',
+                'address-street': 'street_with_type',
+                'address-house': 'house',
+                'address-flat': 'flat'
+            }
+        },
+        'address-postalcode': {
+            'type': 'ADDRESS',
+            'bounds': 'postal-code',
+            'params': {
+                'return': {
+                    'keys': ['data.postal_code']
+                }
+            },
+            'master': {
+                'address-input': 'postal_code'
+            }
+        },
+        'address-region': {
+            'type': 'ADDRESS',
+            'bounds': 'region-area',
+            'params': {
+                'return': {
+                    'keys': ['data.region_with_type']
+                }
+            },
+            'master': {
+                'address-input': 'region_with_type'
+            }
+        },
+        'address-city': {
+            'type': 'ADDRESS',
+            'bounds': 'city-settlement',
+            'params': {
+                'return': {
+                    'keys': ['data.city']
+                }
+            },
+            'master': {
+                'address-input': 'city'
+            }
+        },
+        'address-street': {
+            'type': 'ADDRESS',
+            'bounds': 'street',
+            'params': {
+                'return': {
+                    'keys': ['data.street']
+                }
+            },
+            'master': {
+                'address-input': 'street'
+            }
+        },
+        'address-house': {
+            'type': 'ADDRESS',
+            'bounds': 'house',
+            'params': {
+                'return': {
+                    'keys': ['data.house']
+                }
+            },
+            'master': {
+                'address-input': 'house'
+            }
+        },
+        'address-flat': {
+            'type': 'ADDRESS',
+            'params': {
+                'return': {
+                    'keys': ['data.flat']
+                }
+            },
+            'master': {
+                'address-input': 'flat'
+            }
+        }
+	}`
 ]]
 ```

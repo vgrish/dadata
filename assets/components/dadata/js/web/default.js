@@ -1,4 +1,4 @@
-/** v 1.0.2 */
+/** v 1.0.3 */
 
 if (typeof(modxDaData) == 'undefined') {
     modxDaData = {

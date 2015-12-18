@@ -1,5 +1,9 @@
 Changelog for DaData.
 
+1.0.3-beta (18.12.2015)
+==============
+- Improvement format handler
+
 1.0.2-beta (17.12.2015)
 ==============
 - Fix propkey

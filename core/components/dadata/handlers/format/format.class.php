@@ -3,7 +3,7 @@
 interface FormatInterface
 {
 	/** @inheritdoc} */
-	public function processSuggestData(array $data = array());
+	public function processSuggestData(array $suggest = array(), array $request = array());
 }
 
 class Format implements FormatInterface
@@ -68,70 +68,108 @@ class Format implements FormatInterface
 	 * @param array $data
 	 * @return array
 	 */
-	public function processSuggestData(array $data = array(), array $request = array())
+	public function processSuggestData(array $suggest = array(), array $request = array())
 	{
 		$this->request = $request;
+		return $this->processSuggest($suggest);
+	}
 
-		while (list($key, $val) = each($data)) {
-			if (!is_string($val) AND !is_array($val)) {
+	/**
+	 * @param array $data
+	 * @param string $prefix
+	 * @return array
+	 */
+	public function processSuggest(array $data = array(), $prefix = '')
+	{
+		foreach ($data as $key => $val) {
+			if (is_numeric($key)) {
+				$data[$key] = $this->processSuggest($val);
 				continue;
 			}
-			if (is_numeric($key)) {
-				$data[$key] = $this->processSuggestData($val);
-			}
-			$formatMethod = 'format' . ucfirst(str_replace('_', '', $key));
+			$formatMethod = 'format' . str_replace('_', '', $prefix . $key);
 			$this->dadata->showLog($formatMethod);
 			if (!method_exists($this, $formatMethod)) {
 				continue;
 			}
-			$val = $this->$formatMethod($val);
+			$val = $this->$formatMethod($val, $data);
 			if (is_array($val)) {
-				$data[$key] = $this->processSuggestData($val);
+				$data[$key] = $this->processSuggest($val, $prefix . $key);
 			} else {
 				$data[$key] = $val;
 			}
+
 		}
 		return $data;
 	}
 
+
+	/**
+	 * @param string $val
+	 * @param array $data
+	 * @return mixed|string
+	 */
+	public function formatReturn($val = '', array $data = array())
+	{
+		$keys = $this->getOption('keys', $this->request['return'], false, true);
+		if (!$keys) {
+			return $val;
+		}
+		$properties = $this->flattenArray($data);
+		$pls = $this->makePlaceholders($properties);
+		$delimiter = $this->getOption('delimiter', $this->request['return'], ' ');
+		$val = str_replace($pls['pl'], $pls['vl'], implode($delimiter, $keys));
+		return $val;
+	}
 
 	/**
 	 * @param array $data
 	 * @return array
 	 */
-	public function formatSuggestions(array $data = array())
+	public function formatSuggestions($val = '', array $data = array())
 	{
 		$return = $this->getOption('return', $this->request, false, true);
 		if (!$return) {
-			return $data;
+			return $val;
 		}
 
-		$keys = $this->getOption('keys', $this->request['return'], false, true);
-		if (!$keys) {
-			return $data;
-		}
-
-		$delimiter = $this->getOption('delimiter', $this->request['return'], ' ');
-
-		foreach ($data as $k => $v) {
-			$value = array();
-			foreach ($keys as $key) {
-				if (isset($v['data'][$key])) {
-					$value[] = $v['data'][$key];
-				}
-				$data[$k]['return'] = implode($delimiter, $value);;
+		if (is_array($val)) {
+			foreach ($val as $k => $v) {
+				$val[$k]['return'] = null;
 			}
 		}
-		return $data;
+
+		return $val;
 	}
 
 	/**
-	 * @param string $value
-	 * @return string
+	 * @param array $array
+	 * @param string $plPrefix
+	 * @param string $prefix
+	 * @param string $suffix
+	 * @param bool $uncacheable
+	 * @return array
 	 */
-	public function formatValue($value = '')
+	public function makePlaceholders(array $array = array(), $plPrefix = '', $prefix = '', $suffix = '', $uncacheable = true)
 	{
-		return $value;
+		return $this->dadata->makePlaceholders($array, $plPrefix, $prefix, $suffix, $uncacheable);
+	}
+
+	/**
+	 * @param array $array
+	 * @param string $prefix
+	 * @return array
+	 */
+	public function flattenArray(array $array = array(), $prefix = '')
+	{
+		$outArray = array();
+		foreach ($array as $key => $value) {
+			if (is_array($value)) {
+				$outArray = $outArray + $this->flattenArray($value, $prefix . $key . '.');
+			} else {
+				$outArray[$prefix . $key] = $value;
+			}
+		}
+		return $outArray;
 	}
 
 }
