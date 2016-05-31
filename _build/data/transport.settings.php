@@ -5,18 +5,18 @@ $settings = array();
 $tmp = array(
 
 
-	'apiToken' => array(
-		'value' => '',
-		'xtype' => 'textfield',
-		'area' => 'dadata_main',
-	),
-	'apiSecret' => array(
-		'value' => '',
-		'xtype' => 'textfield',
-		'area' => 'dadata_main',
-	),
+    'apiToken'  => array(
+        'value' => '',
+        'xtype' => 'textfield',
+        'area'  => 'dadata_main',
+    ),
+    'apiSecret' => array(
+        'value' => '',
+        'xtype' => 'textfield',
+        'area'  => 'dadata_main',
+    ),
 
-	//временные
+    //временные
 
 //	'assets_path' => array(
 //		'value' => '{base_path}dadata/assets/components/dadata/',
@@ -34,21 +34,21 @@ $tmp = array(
 //		'area' => 'dadata_temp',
 //	),
 
-	//временные
+    //временные
 
 );
 
 foreach ($tmp as $k => $v) {
-	/* @var modSystemSetting $setting */
-	$setting = $modx->newObject('modSystemSetting');
-	$setting->fromArray(array_merge(
-		array(
-			'key' => 'dadata_' . $k,
-			'namespace' => PKG_NAME_LOWER,
-		), $v
-	), '', true, true);
+    /* @var modSystemSetting $setting */
+    $setting = $modx->newObject('modSystemSetting');
+    $setting->fromArray(array_merge(
+        array(
+            'key'       => 'dadata_' . $k,
+            'namespace' => PKG_NAME_LOWER,
+        ), $v
+    ), '', true, true);
 
-	$settings[] = $setting;
+    $settings[] = $setting;
 }
 
 unset($tmp);

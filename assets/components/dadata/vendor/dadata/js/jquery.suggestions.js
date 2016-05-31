@@ -1001,7 +1001,7 @@
 
         /**
          * Fetch full object for current INPUT's value
-         * if no suitable object found, clean input element
+         * if no suitable object found, standardization input element
          */
         fixData: function () {
             var that = this,
