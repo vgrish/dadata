@@ -9,6 +9,8 @@ class dadata
     public $modx;
     /** @var string $namespace */
     public $namespace = 'dadata';
+    /** @var string $partner */
+    public $partner = 'MODX.VGRISH';
     /* @var array The array of config */
     public $config = array();
     /** @var array $initialized */
@@ -784,6 +786,7 @@ class dadata
                 "Accept: application/json",
                 "Authorization: Token {$this->token}",
                 "X-Secret: {$this->secret}",
+                "X-Partner: {$this->partner}",
             ));
             $opts = array(
                 CURLOPT_RETURNTRANSFER => true,
@@ -800,7 +803,8 @@ class dadata
         } else {
             $headers = array_merge($headers, array(
                 "Accept: application/json",
-                "Authorization: Token {$this->token}"
+                "Authorization: Token {$this->token}",
+                "X-Partner: {$this->partner}",
             ));
             $opts = array(
                 CURLOPT_RETURNTRANSFER => true,

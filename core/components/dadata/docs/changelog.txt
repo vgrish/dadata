@@ -1,5 +1,10 @@
 Changelog for DaData.
 
+1.0.5-beta (20.06.2016)
+==============
+- Update "suggestions"
+- Add "X-Partner"
+
 1.0.4-beta (31.05.2016)
 ==============
 - Add "standardization"
