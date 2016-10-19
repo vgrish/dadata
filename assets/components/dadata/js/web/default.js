@@ -87,14 +87,18 @@ modxDaData = {
 			/** subject **/
 			var subject = config.subject;
 			if (!!subject) {
+				var i = 0;
 				$.each(subject, function (name, key) {
 					var $input = parent.find('[name="' + name + '"]');
 					if (!!!$input) {
 						return true;
 					}
+					i++;
 					var ovalue = $input.val();
 					var nvalue = data[key.toLowerCase()];
-					modxDaData.suggestions.setvalue($input, nvalue);
+					setTimeout(function(){
+						modxDaData.suggestions.setvalue($input, nvalue);
+					},i*100);
 				});
 			}
 
