@@ -28,14 +28,9 @@ if ($ctx != 'web') {
 
 /** @var  $properties */
 $properties = $_REQUEST;
-/** @var  $requestPayload */
-$requestPayload = json_decode(file_get_contents('php://input'), true);
-$jsonError = json_last_error();
-if ($jsonError != JSON_ERROR_NONE) {
-    $modx->log(modX::LOG_LEVEL_ERROR, "[dadata] JSON Error: " . $jsonError);
-} elseif (!empty($requestPayload)) {
-    $properties = array_merge($properties, $requestPayload);
-}
+
+$stream = json_decode(file_get_contents('php://input'), true);
+$properties = array_merge($properties, (array)$stream);
 
 /** @var  $propKey */
 switch (true) {

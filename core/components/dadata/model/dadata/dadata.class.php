@@ -822,21 +822,19 @@ class dadata
         $curl = curl_init();
         curl_setopt_array($curl, $opts);
 
-        $response = curl_exec($curl);
-        if (curl_errno($curl)) {
-            throw new ErrorException(curl_error($curl), curl_errno($curl));
-        }
+        $responseBody = curl_exec($curl);
+        $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
 
-        $response = json_decode($response, true);
-        $jsonError = json_last_error();
-
-        if (is_null($response) AND ($jsonError != JSON_ERROR_NONE)) {
-            $this->modx->log(modX::LOG_LEVEL_ERROR, "[dadata] JSON Error: " . $jsonError . "\n" . $response);
+        if ($statusCode >= 400) {
+            $this->showLog($statusCode, true);
+            $this->showLog($responseBody, true);
         }
-        $this->showLog($response);
 
-        return $response;
+        $result = json_decode($responseBody, true);
+        $this->showLog($result);
+
+        return $result;
     }
 
     /** @inheritdoc} */
@@ -870,10 +868,6 @@ class dadata
     {
         $string = $this->clearJson($string);
         $json = json_decode($string, true);
-        $jsonError = json_last_error();
-        if ($jsonError != JSON_ERROR_NONE) {
-            $this->modx->log(modX::LOG_LEVEL_ERROR, "[dadata] JSON Error: " . $jsonError . "\n" . $string);
-        }
 
         return $json;
     }

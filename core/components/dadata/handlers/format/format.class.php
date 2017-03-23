@@ -105,27 +105,17 @@ class Format implements FormatInterface
             }
             $formatMethod = 'format' . str_replace('_', '', $prefix . $key);
 
-            //$this->modx->log(1, print_r($formatMethod, 1));
-
             $this->dadata->showLog($formatMethod);
             if (!method_exists($this, $formatMethod)) {
                 continue;
             }
+
             $val = $this->$formatMethod($val, $data);
             if (is_array($val)) {
                 $data[$key] = $this->processSuggest($val, $prefix . $key);
             } else {
                 $data[$key] = $val;
             }
-
-            /*
-                        if (isset($data['suggestions'][0]['data'])) {
-                            $data['suggestions'][0]['data'] = array_merge(
-                                $this->flattenArray($data['suggestions'][0]['data']),
-                                $data['suggestions'][0]['data']
-                            );
-                        }
-                        */
         }
 
         return $data;
