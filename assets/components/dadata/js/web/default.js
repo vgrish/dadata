@@ -137,6 +137,13 @@ modxDaData.suggestions = {
 				return true;
 			}
 
+			if (!!config.constraints) {
+				var $constraints = parent.find('[name="' + config.constraints + '"]');
+				if ($constraints.length > 0) {
+					config.constraints = $constraints;
+				}
+			}
+
 			/*
 			 config https://confluence.hflabs.ru/pages/viewpage.action?pageId=350093361
 			 callbacks https://confluence.hflabs.ru/pages/viewpage.action?pageId=207454320
