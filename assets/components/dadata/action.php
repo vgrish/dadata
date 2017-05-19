@@ -40,6 +40,10 @@ switch (true) {
     case !empty($_SERVER['HTTP_CGI_AUTHORIZATION']):
         $properties['propkey'] = trim(str_replace('Token', '', $_SERVER['HTTP_CGI_AUTHORIZATION']));
         break;
+    case function_exists('apache_request_headers') AND !empty($tmp['Authorization']):
+        $tmp = apache_request_headers();
+        $properties['propkey'] = trim(str_replace('Token', '', $tmp['Authorization']));
+        break;
     case !empty($_SERVER['QUERY_STRING']):
         $properties['propkey'] = current(explode('&',
             trim(str_replace('http_auth=Token', '', $_SERVER['QUERY_STRING']))));
@@ -49,6 +53,15 @@ switch (true) {
 /*
 RewriteCond %{HTTP:Authorization} !^$
 RewriteRule ^(.*)$ $1?http_auth=%{HTTP:Authorization} [QSA]
+
+OR
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L] RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ app.php [QSA,L]
+</IfModule>
+
  */
 
 define('MODX_ACTION_MODE', true);
