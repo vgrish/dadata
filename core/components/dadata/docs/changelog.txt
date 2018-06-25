@@ -1,6 +1,6 @@
 Changelog for DaData.
 
-1.0.10-beta (14.09.2017)
+1.0.10-beta (25.06.2018)
 ==============
 - Fix "DaData_onSelect" [js]
 
