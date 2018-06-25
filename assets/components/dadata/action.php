@@ -20,7 +20,7 @@ $modx->setLogLevel(modX::LOG_LEVEL_ERROR);
 $modx->setLogTarget('FILE');
 $modx->error->message = null;
 $ctx = !empty($_REQUEST['ctx']) ? $_REQUEST['ctx'] : 'web';
-if ($ctx != 'web') {
+if ($ctx !== 'web') {
     $modx->switchContext($ctx);
     $modx->user = null;
     $modx->getUser($ctx);

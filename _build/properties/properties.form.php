@@ -57,6 +57,7 @@ $tmp = array(
     'frontendJs'  => array(
         'type'  => 'textfield',
         'value' => '[[+assetsUrl]]js/web/default.js',
+        //'value' => 'dadata/assets/components/dadata/js/web/default.js'
     ),
 //	'showLog' => array(
 //		'type' => 'combo-boolean',
