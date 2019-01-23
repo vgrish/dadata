@@ -180,6 +180,8 @@ modxDaData.suggestions = {
                 }
             }, config));
 
+            $input.attr('onfocus','this.autocomplete=0');
+
         });
     },
 
